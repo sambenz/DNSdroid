@@ -31,7 +31,7 @@ import ch.nic.reg.delegation.TestCategory;
  */
 public class ResultListActivity extends ExpandableListActivity {
 
-    private ExpandableListAdapter mAdapter;
+    private ExpandableListAdapter list;
     private Map<Enum<TestCategory>,List<Result>> results;
     private List<Map<String, String>> groupData;
     private List<List<Map<String, Result>>> childData;
@@ -42,7 +42,7 @@ public class ResultListActivity extends ExpandableListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-		results = ResultList.results;
+		results = DetailTestResultList.results;
 
 		if(results != null){
 	        groupData = new ArrayList<Map<String, String>>();
@@ -63,7 +63,7 @@ public class ResultListActivity extends ExpandableListActivity {
 			final LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		    
 	        // Set up our adapter
-	        mAdapter = new SimpleExpandableListAdapter(
+	        list = new SimpleExpandableListAdapter(
 	                this,
 	                groupData,
 	                0, //R.layout.result_list_item_1,
@@ -79,22 +79,33 @@ public class ResultListActivity extends ExpandableListActivity {
 	        		final View v = super.getGroupView(groupPosition, isExpanded, convertView, parent);
 	
 	        		@SuppressWarnings("unchecked") Map<String, String> map = (Map<String,String>)getGroup(groupPosition);
-					String severity = map.get(RESULT);
+					int severity = Severity.toInt(map.get(RESULT));
 					String cat = (String) map.get(NAME); 
 					
 	        		((TextView)v.findViewById(R.id.cat_text1)).setText(cat);
-	        		if(severity == Severity.toString(Severity.OK) && cat.contains("Dnssec")){
-	        			((ImageView)v.findViewById(R.id.cat_image1)).setImageDrawable( (Drawable) (getResources().getDrawable(R.drawable.dnssec_on)));        			
-	        		}else if(cat.contains("Dnssec")){
-	        			((ImageView)v.findViewById(R.id.cat_image1)).setImageDrawable( (Drawable) (getResources().getDrawable(R.drawable.dnssec_off)));        			
-	        		}else if(severity == Severity.toString(Severity.OK) || severity == Severity.toString(Severity.INFO)){
-	        			((ImageView)v.findViewById(R.id.cat_image1)).setImageDrawable( (Drawable) (getResources().getDrawable(R.drawable.result_ok_large)));
-	        		}else if(severity == Severity.toString(Severity.WARNING)){
-	        			((ImageView)v.findViewById(R.id.cat_image1)).setImageDrawable( (Drawable) (getResources().getDrawable(R.drawable.result_warning_large)));
-	        		}else if(severity == Severity.toString(Severity.ERROR) || severity == Severity.toString(Severity.FATAL)){
-	        			((ImageView)v.findViewById(R.id.cat_image1)).setImageDrawable( (Drawable) (getResources().getDrawable(R.drawable.result_error_large)));        			
+	        		if(cat.contains("Dnssec")){
+	        			if(severity == Severity.OK){
+		        			((ImageView)v.findViewById(R.id.cat_image1)).setImageDrawable( (Drawable) (getResources().getDrawable(R.drawable.dnssec_on)));	        				
+	        			}else{
+		        			((ImageView)v.findViewById(R.id.cat_image1)).setImageDrawable( (Drawable) (getResources().getDrawable(R.drawable.dnssec_off)));		        				
+	        			}
 	        		}else{
-	        			((ImageView)v.findViewById(R.id.cat_image1)).setImageDrawable( (Drawable) (getResources().getDrawable(R.drawable.result_no_info_large)));        			        			
+	        			switch(severity){
+	        			case Severity.OK:
+	        			case Severity.INFO:
+		        			((ImageView)v.findViewById(R.id.cat_image1)).setImageDrawable( (Drawable) (getResources().getDrawable(R.drawable.result_ok_large)));
+		        			break;
+	        			case Severity.WARNING:
+		        			((ImageView)v.findViewById(R.id.cat_image1)).setImageDrawable( (Drawable) (getResources().getDrawable(R.drawable.result_warning_large)));
+		        			break;
+	        			case Severity.ERROR:
+	        			case Severity.FATAL:
+		        			((ImageView)v.findViewById(R.id.cat_image1)).setImageDrawable( (Drawable) (getResources().getDrawable(R.drawable.result_error_large)));        			
+		        			break;
+		        		default:
+		        			((ImageView)v.findViewById(R.id.cat_image1)).setImageDrawable( (Drawable) (getResources().getDrawable(R.drawable.result_no_info_large)));        			        			
+		        			break;
+	        			}
 	        		}
 	        		return v;
 	        	}
@@ -134,15 +145,22 @@ public class ResultListActivity extends ExpandableListActivity {
 						}
 					}
 					((TextView)v.findViewById(R.id.result_text1)).setText(text);
-					if(result.getSeverity() == Severity.OK || result.getSeverity() == Severity.INFO){
+					switch(result.getSeverity()){
+					case Severity.OK:
+					case Severity.INFO:
 	        			((ImageView)v.findViewById(R.id.result_image1)).setImageDrawable( (Drawable) (getResources().getDrawable(R.drawable.result_ok)));
-	        		}else if(result.getSeverity() == Severity.WARNING){
+	        			break;
+					case Severity.WARNING:
 	        			((ImageView)v.findViewById(R.id.result_image1)).setImageDrawable( (Drawable) (getResources().getDrawable(R.drawable.result_warning)));
-	        		}else if(result.getSeverity() == Severity.ERROR || result.getSeverity() == Severity.FATAL){
+	        			break;
+					case Severity.ERROR:
+					case Severity.FATAL:
 	        			((ImageView)v.findViewById(R.id.result_image1)).setImageDrawable( (Drawable) (getResources().getDrawable(R.drawable.result_error)));        			
-	        		}else{
+	        			break;
+	        		default:
 	        			((ImageView)v.findViewById(R.id.result_image1)).setImageDrawable( (Drawable) (getResources().getDrawable(R.drawable.result_no_info)));        			        			
-	        		}
+	        			break;
+					}
 	        		return v;
 	        	}
 	
@@ -152,7 +170,7 @@ public class ResultListActivity extends ExpandableListActivity {
 	    
 	        };
 	        
-	        setListAdapter(mAdapter);
+	        setListAdapter(list);
 		}
     }
     

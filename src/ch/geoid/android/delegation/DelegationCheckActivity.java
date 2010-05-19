@@ -58,8 +58,11 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
 	private ProgressDialog progress;
 	private Intent intent;
 	private Intent resultIntent;
-    public static final int MENU_ITEM_TEST = Menu.FIRST;
-    public static final int MENU_ITEM_DELETE = Menu.FIRST + 1;
+    private static final int MENU_ITEM_TEST = Menu.FIRST;
+    private static final int MENU_ITEM_DELETE = Menu.FIRST + 1;
+    private static final int MENU_ITEM_DELETE_ALL = Menu.FIRST + 2;
+    private static final int MENU_ITEM_ABOUT = Menu.FIRST + 3;
+    private static final int MENU_ITEM_PREFERENCES = Menu.FIRST + 4;
 		
     /**
      * The columns we are interested in from the database
@@ -72,7 +75,7 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
     };
 
 	
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
@@ -141,6 +144,13 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
 
     }
     
+    @Override
+    protected void onResume() {
+    	super.onResume();
+    	final EditText domain_input = (EditText)findViewById(R.id.DomainText);
+    	domain_input.setText("");
+    }
+    
     private void onTestButtonClicked() {
     	EditText domain = (EditText) findViewById(R.id.DomainText);
     	testDomain(domain.getText().toString());
@@ -149,11 +159,12 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         Uri uri = ContentUris.withAppendedId(getIntent().getData(), id);
-        Cursor cursor = managedQuery(uri, PROJECTION, null, null, null);
+        Cursor cursor = getContentResolver().query(uri, PROJECTION, null ,null, null);
         if(cursor.getCount() > 0){
         	cursor.moveToFirst();
         	testDomain(cursor.getString(1));
         }
+        cursor.close();
     }
     
     @Override
@@ -172,13 +183,9 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
             return;
         }
 
-        // Setup the menu header
         menu.setHeaderTitle(cursor.getString(1));
-
-        // Add a menu item to delete the note
-        menu.add(0, MENU_ITEM_TEST, 0, "test");
-        menu.add(0, MENU_ITEM_DELETE, 1, "delete");
-        
+        menu.add(0, MENU_ITEM_TEST, 0, R.string.menu_test);
+        menu.add(0, MENU_ITEM_DELETE, 1, R.string.menu_delete);
     }
         
     @Override
@@ -191,24 +198,45 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
             return false;
         }
 
+        Uri uri = ContentUris.withAppendedId(getIntent().getData(), info.id);
         switch (item.getItemId()) {
-            case MENU_ITEM_DELETE: {
-                // Delete the note that the context menu is for
-                Uri noteUri = ContentUris.withAppendedId(getIntent().getData(), info.id);
-                getContentResolver().delete(noteUri, null, null);
+            case MENU_ITEM_DELETE:
+                getContentResolver().delete(uri, null, null);
                 return true;
-            }
-            case MENU_ITEM_TEST: {
-                Uri uri = ContentUris.withAppendedId(getIntent().getData(), info.id);
-                Cursor cursor = managedQuery(uri, PROJECTION, null, null, null);
+            case MENU_ITEM_TEST:
+                Cursor cursor = getContentResolver().query(uri, PROJECTION, null ,null, null);
                 if(cursor.getCount() > 0){
                 	cursor.moveToFirst();
                 	testDomain(cursor.getString(1));
-                }
+                cursor.close();
                 return true;
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        menu.add(0, MENU_ITEM_ABOUT, 0, R.string.menu_about).setIcon(android.R.drawable.ic_menu_info_details);
+        menu.add(0, MENU_ITEM_DELETE_ALL, 1, R.string.menu_delete_all).setIcon(android.R.drawable.ic_menu_delete);
+        menu.add(0, MENU_ITEM_PREFERENCES, 2, R.string.menu_prefereneces).setIcon(android.R.drawable.ic_menu_preferences);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case MENU_ITEM_ABOUT:
+            startActivity(new Intent(DelegationCheckActivity.this, AboutActivity.class));
+            return true;
+        case MENU_ITEM_DELETE_ALL:
+        	getContentResolver().delete(intent.getData(), null, null);
+        	return true;
+        case MENU_ITEM_PREFERENCES:
+        	return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void testDomain(String domain){
@@ -285,7 +313,6 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
 	
     private void updateDB(CheckDelegation t) {
         ContentValues values = new ContentValues();
-
     	String domain = t.getZone().getNameAsString();
         values.put(Results.DOMAIN,domain);
         int severity = -1;
@@ -300,13 +327,14 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
         values.put(Results.RESULT,Severity.toString(severity));
         values.put(Results.MODIFIED_DATE,System.currentTimeMillis());
 
-        Cursor cur = getContentResolver().query(intent.getData(), PROJECTION,"domain = \"" + domain + "\"",null, Results.DEFAULT_SORT_ORDER);
-        if(cur.getCount() > 0){
-        	cur.moveToFirst();
+        Cursor cursor = getContentResolver().query(intent.getData(), PROJECTION,"domain = \"" + domain + "\"",null, Results.DEFAULT_SORT_ORDER);
+        if(cursor.getCount() > 0){
+        	cursor.moveToFirst();
         	getContentResolver().update(intent.getData(), values, "domain = \"" + domain + "\"", null);
         }else{
         	getContentResolver().insert(intent.getData(), values);        	
-        }		
+        }
+        cursor.close();
 	}
 
 	private Handler handler = new Handler() {

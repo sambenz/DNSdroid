@@ -298,6 +298,7 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
 			resultIntent = new Intent(DelegationCheckActivity.this, ResultListActivity.class);
 			Log.d(TAG,"start test for " + test.getZone().getNameAsString());
 			// It seems to be more efficient to transfer the data via static ResultList than Bundle
+			DetailTestResultList.domain = test.getZone().getNameAsString();
 			DetailTestResultList.results =  test.testZone();
 			updateDB(test);
 			handler.sendEmptyMessage(0);

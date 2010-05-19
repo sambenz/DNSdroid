@@ -14,7 +14,11 @@
     <string name="menu_about">About</string>
     <string name="menu_prefereneces">Preferences</string>
     
-    <string name="about">This is free software !</string>
+    <string name="about">
+    This Android software (ch.geoid.android.delegation) is Copyright (c) 2010, Samuel Benz (benz@geoid.ch) under GPL.\n\n
+    The delegation test library (ch.nic.reg.delegation) written by Samuel Benz (benz@switch.ch) is Copyright (c) 2009-2010, SWITCH. This library is not open and it is used in this software under permission of SWITCH.\n\n
+    The dnsjava library (org.xbill.DNS) is Copyright (c) 1999-2005, Brian Wellington (bwelling@xbill.org) under BSD license.\n\n
+    The oxygen icons are Copyright (c) 2007-2009, David Vignoni, Johann Ollivier Lapeyre, Kenneth Wimer, Nuno Fernades Pinheiro, Riccardo Iaconelli, David Miller under GPL.</string>
     
     <string name="checkdelegation.address.syntax.ok" >The format of the IP address for the name server {param} is valid.</string>
     <string name="checkdelegation.address.syntax.error" >The format of the IP address for the name server {param} is invalid.</string>

@@ -22,4 +22,8 @@ public class DetailTestResultList {
 	 */
 	public static Map<Enum<TestCategory>, List<Result>> results;
 	
+	/**
+	 * Holds the domain name
+	 */
+	public static String domain;
 }

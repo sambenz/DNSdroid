@@ -45,6 +45,7 @@ public class ResultListActivity extends ExpandableListActivity {
 		results = DetailTestResultList.results;
 
 		if(results != null){
+			this.setTitle(DetailTestResultList.domain);
 	        groupData = new ArrayList<Map<String, String>>();
 	        childData = new ArrayList<List<Map<String, Result>>>();
 

@@ -12,10 +12,11 @@ Eclipse:
 File -> Import -> General -> Existing Projects into Workspace
 
 License:
-DNSdroid is placed under the GPL license.  Several files or third
-party jars are also under additional licenses; see the individual
-files for details or libs/license.
+DNSdroid is placed under the GPL license.
+However, some copies of some third-party dependencies are distributed
+with DNSdroid as Java jar files in libs/. Licensing information for
+these files can be found in the libs/license file.
 
-Copyright (c) 2010, Samuel Benz
+Copyright (c) 2010, Samuel Benz <benz@geoid.ch>
 All rights reserved.
 

@@ -256,6 +256,7 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
         	getContentResolver().delete(intent.getData(), null, null);
         	return true;
         case MENU_ITEM_PREFERENCES:
+            startActivity(new Intent(DelegationCheckActivity.this, PreferencesActivity.class));
         	return true;
         }
         return super.onOptionsItemSelected(item);

@@ -23,6 +23,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.xbill.DNS.ResolverConfig;
+
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -92,11 +94,13 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
             Results.MODIFIED_DATE, // 3
     };
 
-	
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
+              
+        // refresh name server
+        ResolverConfig.refresh();
+
         getListView().setOnCreateContextMenuListener(this);
         
         final Button button = (Button) findViewById(R.id.StartTest);

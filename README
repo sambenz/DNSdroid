@@ -1,0 +1,21 @@
+
+DNSdroid
+
+About:
+
+Install:
+git checkout git://.....
+cd DNSdroid.git && android update project -p .
+ant install
+
+Eclipse:
+File -> Import -> General -> Existing Projects into Workspace
+
+License:
+DNSdroid is placed under the GPL license.  Several files or third
+party jars are also under additional licenses; see the individual
+files for details or libs/license.
+
+Copyright (c) 2010, Samuel Benz
+All rights reserved.
+

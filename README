@@ -1,10 +1,22 @@
 
 DNSdroid
+-----------------------------------------------------------------------------------------------
 
 About:
+The DNSdroid Android application is based on the delegation check library from the Swiss ccTLD .CH.
+
+Following test categories are included:
+
+    * SOA
+    * Delegation
+    * Dnssec
+    * Nameserver
+    * Address (of name server)
+
+Note: All tests are performed on the Device! No Web-Service is involved. This let you also check your internal domains using the wireless capabilities from your mobile phone.
 
 Install:
-git checkout git://.....
+git clone git://github.com/sambenz/DNSdroid.git
 cd DNSdroid.git && android update project -p .
 ant install
 
@@ -19,5 +31,4 @@ these files can be found in the libs/license file.
 
 Copyright (c) 2010, Samuel Benz <benz@geoid.ch>
 All rights reserved.
-
 

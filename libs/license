@@ -36,4 +36,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -----------------------------------------------------------------------------
 ch.nic.reg.delegation.*
 
+The delegation test library written by Samuel Benz (benz@switch.ch) 
+is Copyright (c) 2009-2010, SWITCH. 
+
+This library is not open and it is used in this software under permission
+of SWITCH in binary form only.
 

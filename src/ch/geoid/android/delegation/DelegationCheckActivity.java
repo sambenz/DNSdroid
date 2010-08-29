@@ -289,6 +289,7 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
 			zone.setNameserver(zone.getNameserverByResolver());
 			Log.d(TAG,"found name server for " + test.getZone().getNameAsString() + " " + test.getZone().getNameserver().toString());
 			zone.setDNSKey(zone.getDNSKeyByResolver());
+			zone.setDS(zone.getDSByResolver());
 			if(zone.getNameserver().size() < 1){
 				throw new CheckDelegationException();
 			}

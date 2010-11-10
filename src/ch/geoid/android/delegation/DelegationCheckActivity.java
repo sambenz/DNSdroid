@@ -32,6 +32,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -377,27 +378,28 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
     };
     	
 	private String FuzzyDate(long date){
+		Resources res = getResources();
 		String s = "";
 		int d,delta = (int)((System.currentTimeMillis() - date) / 1000);
 		
 		if((int) delta/2073600 >= 1){
 			d = (int) delta/2073600;
-			s = d + " month ago";
+			s = String.format(res.getQuantityString(R.plurals.month, d),d);
 		}else if((int) delta/604800 >= 1){
 			d = (int) delta/604800;
-			s = d + " week ago";						
+			s = String.format(res.getQuantityString(R.plurals.weeks, d),d);						
 		}else if((int)delta/86400 >= 1){
 			d = (int) delta/86400;
-			s = d + " day ago";			
+			s = String.format(res.getQuantityString(R.plurals.days, d),d);
 		}else if((int) delta/3600 >= 1){
 			d = (int) delta/3600;
-			s = d + " hour ago";						
+			s = String.format(res.getQuantityString(R.plurals.hours, d),d);	
 		}else {
 			d = (int) delta / 60;
 			if(d > 1){
-				s = d + " min ago";
+				s = String.format(res.getQuantityString(R.plurals.minutes, d),d);
 			}else{
-				s = "<1 min ago";
+				s = String.format(res.getQuantityString(R.plurals.minutes, 1),d);
 			}
 		}
 		return s;

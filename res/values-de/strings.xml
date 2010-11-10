@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="start_test">Test</string>
+    <string name="progress_test">Test läuft. Bitte warten...</string>    
+    <string name="domain_input"></string> 
+    <string name="domain_input_help">Gib ein Domain-Name ein</string>
+    <string name="error_valid_domain">Der Domain-Name ist ungültig!</string>
+    <string name="error_no_ns_found">Keine Name-Server gefunden für:</string>
+    
+    <string name="menu_test">Testen</string>
+    <string name="menu_delete">Eintrag löschen</string>
+    <string name="menu_delete_all">Alle Löschen</string>
+    <string name="menu_about">About</string>
+    <string name="menu_prefereneces">Einstellungen</string>
+        
+    <string name="preferences">Einstellungen sind in der nächsten Version verfügbar!</string>
+
+    <plurals name="month">
+        <item quantity="one">vor 1 Monat</item>
+        <item quantity="other">vor %1$d Monaten</item>
+    </plurals>
+    <plurals name="weeks">
+        <item quantity="one">vor 1 Woche</item>
+        <item quantity="other">vor %1$d Wochen</item>
+    </plurals>
+        <plurals name="days">
+        <item quantity="one">vor 1 Tag</item>
+        <item quantity="other">vor %1$d Tagen</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">vor 1 Stunde</item>
+        <item quantity="other">vor %1$d Stunden</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">vor &lt;1 Minute</item>
+        <item quantity="other">vor %1$d Minuten</item>
+    </plurals>
+        
+	<string name="checkdelegation.address.syntax.ok">Das Format der IP-Adresse des Name-Servers {param} ist gültig.</string>
+	<string name="checkdelegation.address.syntax.error">Das Format der IP-Adresse des Name-Servers {param} ist ungültig.</string>
+	<string name="checkdelegation.address.private.ok">Die IP-Adresse des Name-Servers {param} ist nicht aus einem reservierten oder internen Bereich.</string>
+	<string name="checkdelegation.address.private.linklocal">Die IP-Adresse des Name-Servers {param} ist aus einem internen Bereich.</string>
+	<string name="checkdelegation.address.private.multicast">Die IP-Adresse des Name-Servers {param} ist aus einem Multicast-Bereich.</string>
+	<string name="checkdelegation.address.recursive.ok">Der Name-Server {param} beantwortet keine rekursiven Anfragen.</string>
+	<string name="checkdelegation.address.recursive.is_recursive">Der Name-Server {param} beantwortet rekursive Anfragen.</string>
+	<string name="checkdelegation.address.tcp.unreachable">Der Name-Server {param} ist über TCP nicht erreichbar.</string>
+	<string name="checkdelegation.address.tcp.ok">Der Name-Server {param} ist über TCP erreichbar.</string>
+	<string name="checkdelegation.delegation.syntax.ok">Das Format des Domain-Namens ist gültig.</string>
+	<string name="checkdelegation.delegation.syntax.name_too_long">Der Domain-Name ist zu lang.</string>
+	<string name="checkdelegation.delegation.syntax.label_too_long">Ein Label des Domain-Namens ist zu lang: {param}.</string>
+	<string name="checkdelegation.delegation.glue.info">Für die folgenden Name-Server wird ein Glue-Eintrag benötigt: {param}.</string>
+	<string name="checkdelegation.delegation.glue.ok">Es werden keine Glue-Einträge benötigt.</string>
+	<string name="checkdelegation.delegation.missingNsAtChild.ok">Alle angegebenen Name-Server sind für den Domain-Namen konfiguriert.</string>
+	<string name="checkdelegation.delegation.missingNsAtChild.differ">Es sind mehr Name-Server für den Domain-Namen angegeben worden als tatsächlich im DNS konfiguriert wurden. Folgende Name-Server sind im DNS nicht für den Domain-Namen konfiguriert: {param}.</string>
+	<string name="checkdelegation.delegation.missingNsAtInput.ok">Es wurden alle Name-Server angegeben, die für den Domain-Namen konfiguriert wurden.</string>
+	<string name="checkdelegation.delegation.missingNsAtInput.differ">Es sind weniger Name-Server für den Domain-Namen angegeben worden als tatsächlich im DNS konfiguriert wurden. Folgende Name-Server wurden ebenfalls für den Domain-Namen konfiguriert und sollten angegeben werden: {param}.</string>
+	<string name="checkdelegation.delegation.no_ns_found_at_child">Der Name-Server {param} liefert keine Liste von Name-Servern für den Domain-Namen.</string>
+	<string name="checkdelegation.delegation.ns_count.error">Es wurden keine Name-Server angegeben.</string>
+	<string name="checkdelegation.delegation.ns_count.warning">Es wird empfohlen, mindestens zwei Name-Server anzugeben.</string>
+	<string name="checkdelegation.delegation.ns_count.ok">Es sind genügend Name-Server angegeben.</string>
+	<string name="checkdelegation.delegation.ip_count.error">Die angegebenen Name-Server haben keine IPv4-Adresse.</string>
+	<string name="checkdelegation.delegation.ip_count.warning">Es wird empfohlen, Name-Server anzugeben, die mindestens zwei unterschiedliche IPv4-Adressen haben. Anzahl unterschiedliche IPv4-Adressen: {param}.</string>
+	<string name="checkdelegation.delegation.ip_count.ok">Die angegebenen Name-Server haben genügend unterschiedliche IPv4-Adressen. Anzahl unterschiedliche IPv4-Adressen: {param}.</string>
+	<string name="checkdelegation.nameserver.syntax.ok">Der Name des Name-Servers {param} ist gültig.</string>
+	<string name="checkdelegation.nameserver.syntax.name_too_long">Der Name des Name-Servers {param} ist zu lang.</string>
+	<string name="checkdelegation.nameserver.syntax.label_not_start_with_letter_or_digit">Der Name des Name-Servers beginnt nicht mit einem Buchstaben oder einer Zahl: {param}.</string>
+	<string name="checkdelegation.nameserver.syntax.label_not_end_with_letter_or_digit">Der Name des Name-Servers endet nicht mit einem Buchstaben oder einer Zahl: {param}.</string>
+	<string name="checkdelegation.nameserver.syntax.label_contains_illegal_char">Der Name des Name-Servers enthält ungültige Zeichen: {param}.</string>
+	<string name="checkdelegation.nameserver.syntax.label_too_long">Der Name des Name-Servers enthält zu lange Labels: {param}.</string>
+	<string name="checkdelegation.nameserver.host_in_dns.ok">Der Name-Server {param} kann im DNS gefunden werden.</string>
+	<string name="checkdelegation.nameserver.host_in_dns.not_found">Der Name-Server {param} kann im DNS nicht gefunden werden.</string>
+	<string name="checkdelegation.nameserver.host_not_cname.is_cname">Der Name-Server {param} zeigt auf einen CNAME.</string>
+	<string name="checkdelegation.nameserver.host_not_cname.ok">Der Name-Server {param} zeigt nicht auf einen CNAME.</string>
+	<string name="checkdelegation.nameserver.host_not_cname.no_response">Der Name-Server {param} antwortet nicht auf die Frage nach einem CNAME-Eintrag.</string>
+	<string name="checkdelegation.nameserver.missingIpAtNs.ok">Alle gefundenen IP-Adressen des Name-Servers {param} sind im DNS konfiguriert.</string>
+	<string name="checkdelegation.nameserver.missingIpAtNs.differ">Es können nicht alle IP-Adressen, die für diesen Name-Server in unserer Datenbank eingetragen sind, im DNS gefunden werden. Folgende IP-Adressen sollten vom Hostmaster im Datenbank-Eintrag des Name-Servers entfernt werden: {param}.</string>
+	<string name="checkdelegation.nameserver.missingIpAtInput.ok">Alle für den Name-Server {param} eingetragenen IP-Adressen sind im DNS konfiguriert.</string>
+	<string name="checkdelegation.nameserver.missingIpAtInput.differ">In unserer Datenbank sind nicht alle IP-Adressen eingetragen, die für diesen Name-Server im DNS gefunden wurden. Folgende IP-Adressen sollten vom Hostmaster im Datenbank-Eintrag des Name-Servers eingetragen werden: {param}.</string>
+	<string name="checkdelegation.nameserver.no_address_found">Der Name-Server {param} konnte seine eigene IP-Adresse nicht liefern.</string>
+	<string name="checkdelegation.soa.getsoa.ok">Alle Name-Server antworten autoritativ.</string>
+	<string name="checkdelegation.soa.getsoa.no_aa">Folgende Name-Server antworten nicht autoritativ für den Domain-Namen: {param}.</string>
+	<string name="checkdelegation.soa.consistency.ok">Die SOA-Einträge aller Name-Server (Seriennummer {param}) sind identisch.</string>
+	<string name="checkdelegation.soa.consistency.differ">Folgende SOA-Einträge sind unterschiedlich: Seriennummern {param}.</string>
+	<string name="checkdelegation.soa.one_soa.ok">Pro Name-Server ist genau ein SOA-Eintrag vorhanden.</string>
+	<string name="checkdelegation.soa.one_soa.more_than_one">Es sind mehrere SOA-Einträge pro Name-Server vorhanden. Folgende Name-Server haben mehrere SOA-Einträge: {param}.</string>
+	<string name="checkdelegation.soa.rname.ok">Der Admin-Kontakt {param} im SOA-Eintrag ist richtig formatiert.</string>
+	<string name="checkdelegation.soa.rname.no_email">Der Admin-Kontakt {param} im SOA-Eintrag ist ungültig formatiert.</string>
+	<string name="checkdelegation.soa.getsoa.no_response">Folgende Name-Server antworten nicht auf die Frage nach dem SOA-Eintrag: {param}.</string>
+	<string name="checkdelegation.dnssec.state.disabled">DNSSEC ist nicht aktiviert.</string>
+	<string name="checkdelegation.dnssec.state.child_only">DNSSEC ist erst auf Ihren Name-Servern konfiguriert.</string>
+	<string name="checkdelegation.dnssec.state.parent_only">ACHTUNG! DNSSEC ist nur auf unseren Name-Servern aktiviert. Der Domain-Name wird nicht funktionieren! DNSSEC muss auch auf den Name-Servern Ihres Domain-Namens konfiguriert werden.</string>
+	<string name="checkdelegation.dnssec.state.ok">DNSSEC ist aktiviert.</string>
+	<string name="checkdelegation.dnssec.algorithm.error">Es konnten keine DNSKEY-Einträge zur Prüfung des Algorithmus gefunden werden.</string>
+	<string name="checkdelegation.dnssec.algorithm.ok">Kein DNSKEY-Eintrag hat den Algorithmus vom Typ RSAMD5.</string>
+	<string name="checkdelegation.dnssec.algorithm.ismd5">Folgende DNSKEY-Einträge haben den Algorithmus vom Typ RSAMD5: {param}.</string>
+	<string name="checkdelegation.dnssec.protocol.error">Es konnten keine DNSKEY-Einträge zur Prüfung des Protokolls gefunden werden.</string>
+	<string name="checkdelegation.dnssec.protocol.ok">Das Protokoll aller DNSKEY-Einträge ist für DNSSEC geeignet.</string>
+	<string name="checkdelegation.dnssec.protocol.not_dnssec">Das Protokoll folgender DNSKEY-Einträge ist nicht für DNSSEC geeignet: {param}.</string>
+	<string name="checkdelegation.dnssec.flag.error">Es konnten keine DNSKEY-Einträge zur Prüfung der Flags gefunden werden.</string>
+	<string name="checkdelegation.dnssec.flag.ok">Die Flags aller DNSKEY-Einträge sind richtig gesetzt.</string>
+	<string name="checkdelegation.dnssec.flag.not_zonekey">Die Flags folgender DNSKEY-Einträge sind nicht richtig gesetzt: {param}.</string>
+	<string name="checkdelegation.dnssec.sig_dnskey.fail">Die Signatur der DNSKEY-Einträge konnte nicht überprüft werden.</string>
+	<string name="checkdelegation.dnssec.sig_dnskey.valid">Die Signatur der DNSKEY-Einträge ist gültig.</string>
+	<string name="checkdelegation.dnssec.sig_dnskey.invalid">Die Signatur der DNSKEY-Einträge ist ungültig.</string>
+	<string name="checkdelegation.dnssec.sig_dnskey.not_valid_after">Die Signatur der DNSKEY-Einträge ist seit {param} abgelaufen.</string>
+	<string name="checkdelegation.dnssec.sig_dnskey.not_valid_before">Die Signatur der DNSKEY-Einträge ist erst ab {param} gültig.</string>
+	<string name="checkdelegation.dnssec.sig_dnskey.no_response">Die Name-Server antworten nicht auf die Frage nach dem DNSKEY-Eintrag.</string>
+	<string name="checkdelegation.dnssec.sig_soa.fail">Die Signatur des SOA-Eintrags konnte nicht überprüft werden.</string>
+	<string name="checkdelegation.dnssec.sig_soa.valid">Die Signatur des SOA-Eintrags ist gültig.</string>
+	<string name="checkdelegation.dnssec.sig_soa.invalid">Die Signatur des SOA-Eintrags ist ungültig.</string>
+	<string name="checkdelegation.dnssec.sig_soa.not_valid_after">Die Signatur des SOA-Eintrags ist seit {param} abgelaufen.</string>
+	<string name="checkdelegation.dnssec.sig_soa.not_valid_before">Die Signatur des SOA-Eintrags ist erst ab {param} gültig.</string>
+	<string name="checkdelegation.dnssec.sig_soa.no_response">Die Name-Server antworten nicht auf die Frage nach dem SOA-Eintrag.</string>
+	<string name="checkdelegation.dnssec.ds_to_key.missing">ACHTUNG! Keiner der angegebenen DS-Einträge zeigt auf einen gültigen DNSKEY-Eintrag auf Ihren Name-Servern. Der Domain-Name wird nicht funktionieren!</string>
+	<string name="checkdelegation.dnssec.ds_to_key.found">Für folgende DNSKEY-Einträge wurde ein passender DS-Eintrag gefunden: {param}.</string>
+	<string name="checkdelegation.dnssec.ds_to_sep.missing">Keiner der angegebenen DS-Einträge zeigt auf einen DNSSKEY-Eintrag, der als Secure Entry Point (SEP) markiert ist.</string>
+	<string name="checkdelegation.dnssec.ds_to_sep.found">Für folgende DNSKEY-Einträge, die als Secure Entry Point (SEP) markiert sind, wurde ein passender DS-Eintrag gefunden: {param}.</string>
+	<string name="checkdelegation.dnssec.ds_algo.missing_sha1">Es wurde kein DS-Eintrag mit dem Digest Type SHA1 gefunden.</string>
+	<string name="checkdelegation.dnssec.ds_algo.sha1_found">Folgende DS-Einträge haben einen Digest Type SHA1: {param}.</string>
+	<string name="checkdelegation.server.unreachable">Der Name-Server {param} ist nicht erreichbar.</string>
+	<string name="checkdelegation.generic.error">Der Name-Server-Test konnte nicht durchgeführt werden.</string>
+</resources>

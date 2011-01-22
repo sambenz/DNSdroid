@@ -98,10 +98,10 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-              
-        // refresh name server
-        ResolverConfig.refresh();
-
+        
+        // uncomment to test this software on an Android Emulator !! 
+        //System.setProperty("java.net.preferIPv6Addresses", "false");
+        
         getListView().setOnCreateContextMenuListener(this);
         
         final Button button = (Button) findViewById(R.id.StartTest);
@@ -170,6 +170,10 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
     @Override
     protected void onResume() {
     	super.onResume();
+
+    	// refresh name server
+        ResolverConfig.refresh();
+
     	final EditText domain_input = (EditText)findViewById(R.id.DomainText);
     	domain_input.setText("");
     }

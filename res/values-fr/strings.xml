@@ -115,8 +115,8 @@
 	<string name="checkdelegation.dnssec.ds_to_key.found">Pour les entrées DNSKEY suivantes, une entrée DS correspondante a été trouvée: {param}.</string>
 	<string name="checkdelegation.dnssec.ds_to_sep.missing">Aucune des entrées DS pointe vers une entrée DNSSKEY qui est marquée comme point d\'entrée sécurisé (Secure Entry Point SEP).</string>
 	<string name="checkdelegation.dnssec.ds_to_sep.found">Pour les entrées DNSKEY suivantes qui sont marquées comme point d\'entrée sécurisé (Secure Entry Point SEP), des entrées DS correspondantes ont été trouvées: {param}.</string>
-	<string name="checkdelegation.dnssec.ds_algo.missing_sha1">On n\'a pas pu trouver d\'entrée DS avec SHA1 comme type de digest (fonction d\'hachage à sens unique).</string>
-	<string name="checkdelegation.dnssec.ds_algo.sha1_found">Les entrées DS suivantes ont SHA1 comme type de digest (fonction d\'hachage à sens unique): {param}.</string>
+	<string name="checkdelegation.dnssec.ds_algo.missing_sha">On n\'a pas pu trouver d\'entrée DS avec SHA1 ou SHA256 comme type de digest (fonction d\'hachage à sens unique).</string>
+	<string name="checkdelegation.dnssec.ds_algo.sha_found">Les entrées DS suivantes ont SHA1 ou SHA256 comme type de digest (fonction d\'hachage à sens unique): {param}.</string>
 	<string name="checkdelegation.server.unreachable">Le serveur de noms {param} n\'est pas atteignable.</string>
 	<string name="checkdelegation.generic.error">Le test de serveur de noms n\'a pas pu être effectué.</string>
 </resources>

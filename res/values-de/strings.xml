@@ -115,8 +115,8 @@
 	<string name="checkdelegation.dnssec.ds_to_key.found">Für folgende DNSKEY-Einträge wurde ein passender DS-Eintrag gefunden: {param}.</string>
 	<string name="checkdelegation.dnssec.ds_to_sep.missing">Keiner der angegebenen DS-Einträge zeigt auf einen DNSSKEY-Eintrag, der als Secure Entry Point (SEP) markiert ist.</string>
 	<string name="checkdelegation.dnssec.ds_to_sep.found">Für folgende DNSKEY-Einträge, die als Secure Entry Point (SEP) markiert sind, wurde ein passender DS-Eintrag gefunden: {param}.</string>
-	<string name="checkdelegation.dnssec.ds_algo.missing_sha1">Es wurde kein DS-Eintrag mit dem Digest Type SHA1 gefunden.</string>
-	<string name="checkdelegation.dnssec.ds_algo.sha1_found">Folgende DS-Einträge haben einen Digest Type SHA1: {param}.</string>
+	<string name="checkdelegation.dnssec.ds_algo.missing_sha">Es wurde kein DS-Eintrag mit dem Digest Type SHA1 oder SHA256 gefunden.</string>
+	<string name="checkdelegation.dnssec.ds_algo.sha_found">Folgende DS-Einträge haben einen Digest Type SHA1 oder SHA256: {param}.</string>
 	<string name="checkdelegation.server.unreachable">Der Name-Server {param} ist nicht erreichbar.</string>
 	<string name="checkdelegation.generic.error">Der Name-Server-Test konnte nicht durchgeführt werden.</string>
 </resources>

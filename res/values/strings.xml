@@ -15,9 +15,9 @@
     <string name="menu_prefereneces">Preferences</string>
     
     <string name="about">
-    This Android software is Copyright (c) 2010, Samuel Benz (benz@geoid.ch) under GPL.\n\n
+    This Android software is Copyright (c) 2010-2011, Samuel Benz (benz@geoid.ch) under GPL.\n\n
     http://www.geoid.ch/dnsdroid\n\n
-    The delegation test library written by Samuel Benz (benz@switch.ch) is Copyright (c) 2009-2010, SWITCH. This library is not open and it is used in this software under permission of SWITCH in binary form only.\n\n
+    The delegation test library written by Samuel Benz (benz@switch.ch) is Copyright (c) 2009-2011, SWITCH. This library is not open and it is used in this software under permission of SWITCH in binary form only.\n\n
     The dnsjava library is Copyright (c) 1999-2005, Brian Wellington (bwelling@xbill.org) under BSD license.\n\n
     The oxygen icons are Copyright (c) 2007-2009, David Vignoni, Johann Ollivier Lapeyre, Kenneth Wimer, Nuno Fernades Pinheiro, Riccardo Iaconelli, David Miller under GPL.</string>
     
@@ -25,7 +25,7 @@
     
         <plurals name="month">
         <item quantity="one">1 month ago</item>
-        <item quantity="other">%1$d month ago</item>
+        <item quantity="other">%1$d months ago</item>
     </plurals>
     <plurals name="weeks">
         <item quantity="one">1 week ago</item>
@@ -123,8 +123,8 @@
     <string name="checkdelegation.dnssec.ds_to_key.found" >For the following DNSKEY records, a matching DS record was found: {param}.</string>
     <string name="checkdelegation.dnssec.ds_to_sep.missing" >None of the given DS records maps to a DNSSKEY record that is marked as a Secure Entry Point (SEP).</string>
     <string name="checkdelegation.dnssec.ds_to_sep.found" >For the following DNSKEY records marked as a Secure Entry Point (SEP), a matching DS record could be found: {param}.</string>
-    <string name="checkdelegation.dnssec.ds_algo.missing_sha1" >There was no DS record found with SHA1 as the digest type.</string>
-    <string name="checkdelegation.dnssec.ds_algo.sha1_found" >The following DS records have a digest type of SHA1: {param}.</string>
+    <string name="checkdelegation.dnssec.ds_algo.missing_sha" >There was no DS record found with SHA1 or SHA256 as the digest type.</string>
+    <string name="checkdelegation.dnssec.ds_algo.sha_found" >The following DS records have a digest type of SHA1 or SHA256: {param}.</string>
     <string name="checkdelegation.server.unreachable" >The name server {param} is unreachable.</string>
     <string name="checkdelegation.generic.error" >The name server test couldn\'t be performed.</string>
 </resources>

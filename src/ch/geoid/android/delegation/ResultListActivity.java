@@ -25,9 +25,12 @@ import java.util.Map;
 
 import android.app.ExpandableListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
@@ -55,6 +58,8 @@ public class ResultListActivity extends ExpandableListActivity {
     private List<List<Map<String, Result>>> childData;
     private static final String NAME = "NAME";
     private static final String RESULT = "RESULT";
+    private static final int MENU_ITEM_BACK = Menu.FIRST;
+    private static final int MENU_ITEM_SHARE = Menu.FIRST + 1;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -137,32 +142,8 @@ public class ResultListActivity extends ExpandableListActivity {
 	        		final View v = super.getChildView(groupPosition, childPosition, isLastChild, convertView, parent);
 	
 	        		@SuppressWarnings("unchecked") Map<String, Result> map = (Map<String,Result>)getChild(groupPosition, childPosition);
-					Result result = map.get(RESULT);
-	        		
-					int txtId = getResources().getIdentifier(result.getDescription(),"string","ch.geoid.android.delegation");
-					String text;  
-					if(txtId > 0){
-						if(result.getParameters().size() > 0){
-							String params = "";
-							for(String param : result.getParameters()){
-								if(result.getParameters().indexOf(param) == 0){
-									params = param;
-								}else{
-									params = params + ", " + param;
-								}
-							}
-							String rtext = getResources().getString(txtId);
-							text = rtext.replace("{param}",params);
-						}else{
-							text = getResources().getString(txtId);							
-						}
-					}else{
-						if(result.getParameters().size() > 0){
-							text = result.getDescription() + " " + result.getParameters();
-						}else{
-							text = result.getDescription();
-						}
-					}
+					Result result = map.get(RESULT);	        		
+					String text = getDescription(result);;  
 					((TextView)v.findViewById(R.id.result_text1)).setText(text);
 					switch(result.getSeverity()){
 					case Severity.OK:
@@ -192,6 +173,61 @@ public class ResultListActivity extends ExpandableListActivity {
 	        setListAdapter(list);
 		}
     }
+
+    private String getResultsAsText(){
+    	StringBuffer t = new StringBuffer();
+    	t.append(getResources().getString(R.string.share_header) + " " + DetailTestResultList.domain + "\n\n");
+        if(results.containsKey(TestCategory.Generic)){
+        	t.append(getCategoryAsText(TestCategory.Generic));	
+        }
+        t.append(getCategoryAsText(TestCategory.SOA));
+        t.append(getCategoryAsText(TestCategory.Delegation));
+        t.append(getCategoryAsText(TestCategory.Dnssec));
+        t.append(getCategoryAsText(TestCategory.Nameserver));
+        t.append(getCategoryAsText(TestCategory.Address));
+        t.append("\n" + getResources().getString(R.string.share_footer) + "\n\n");
+    	return t.toString();
+    }
+    
+    private String getCategoryAsText(TestCategory category){
+    	StringBuffer t = new StringBuffer();
+    	t.append(category.name() + ":\n");
+		for(Result result : results.get(category)){
+			t.append(Severity.toString(result.getSeverity()) + "\t"); 
+			t.append(getDescription(result));
+			t.append("\n");
+		}
+		t.append("\n");
+    	return t.toString();
+    }
+    
+    private String getDescription(Result result){
+		int txtId = getResources().getIdentifier(result.getDescription(),"string","ch.geoid.android.delegation");
+		String text;  
+		if(txtId > 0){
+			if(result.getParameters().size() > 0){
+				String params = "";
+				for(String param : result.getParameters()){
+					if(result.getParameters().indexOf(param) == 0){
+						params = param;
+					}else{
+						params = params + ", " + param;
+					}
+				}
+				String rtext = getResources().getString(txtId);
+				text = rtext.replace("{param}",params);
+			}else{
+				text = getResources().getString(txtId);							
+			}
+		}else{
+			if(result.getParameters().size() > 0){
+				text = result.getDescription() + " " + result.getParameters();
+			}else{
+				text = result.getDescription();
+			}
+		}
+		return text;
+    }
     
     private void showResults(TestCategory category){
 		Map<String, String> curGroupMap = new HashMap<String, String>();
@@ -209,5 +245,30 @@ public class ResultListActivity extends ExpandableListActivity {
 		}
 		curGroupMap.put(RESULT,Severity.toString(overCategorySeverity));
         childData.add(children);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        menu.add(0, MENU_ITEM_BACK, 0, R.string.menu_back).setIcon(android.R.drawable.ic_menu_revert);
+        menu.add(0, MENU_ITEM_SHARE, 1, R.string.menu_share).setIcon(android.R.drawable.ic_menu_share);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case MENU_ITEM_BACK:
+            startActivity(new Intent(ResultListActivity.this, DelegationCheckActivity.class));
+            return true;
+        case MENU_ITEM_SHARE:
+        	Intent share = new Intent(Intent.ACTION_SEND);
+        	share.setType("text/plain");
+        	share.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.share_header) + " " + DetailTestResultList.domain);
+        	share.putExtra(Intent.EXTRA_TEXT, getResultsAsText());
+        	startActivity(Intent.createChooser(share, getResources().getString(R.string.menu_share) + " " + DetailTestResultList.domain));
+        	return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

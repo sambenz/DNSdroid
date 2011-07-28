@@ -32,6 +32,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -41,11 +42,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,6 +58,7 @@ import android.widget.TextView.OnEditorActionListener;
 import ch.geoid.android.delegation.DelegationCheckResults.Results;
 import ch.nic.reg.delegation.CheckDelegation;
 import ch.nic.reg.delegation.CheckDelegationException;
+import ch.nic.reg.delegation.ResolverFactory;
 import ch.nic.reg.delegation.Result;
 import ch.nic.reg.delegation.Severity;
 import ch.nic.reg.delegation.TestCategory;
@@ -98,8 +100,8 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
-        // uncomment to test this software on an Android Emulator !! 
+               
+        // uncomment to test this software on an Android Emulator !!
         //System.setProperty("java.net.preferIPv6Addresses", "false");
         
         getListView().setOnCreateContextMenuListener(this);
@@ -112,6 +114,7 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
             });
         
         final EditText domain_input = (EditText)findViewById(R.id.DomainText);
+        domain_input.setInputType(524288); // disable text suggestions
         domain_input.setOnEditorActionListener(new OnEditorActionListener() {
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 	if (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
@@ -122,8 +125,16 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
                 }
         	});
 
-        //SharedPreferences settings = getSharedPreferences(TAG,0);
-       
+        final SharedPreferences settings = getSharedPreferences(TAG,0);
+        SharedPreferences.Editor edit = settings.edit();
+        if(!settings.contains(PreferencesActivity.RETRIES)){
+        	edit.putString(PreferencesActivity.RETRIES, "3");
+        }
+        if(!settings.contains(PreferencesActivity.TIMEOUT)){
+        	edit.putString(PreferencesActivity.TIMEOUT, "3");        
+        }
+        edit.commit();
+        	
         intent = getIntent();
         if (intent.getData() == null) {
             intent.setData(Results.CONTENT_URI);
@@ -165,6 +176,10 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
         };
         setListAdapter(list);
 
+        if(intent.hasExtra(Intent.EXTRA_TEXT)){
+        	testDomain(intent.getStringExtra(Intent.EXTRA_TEXT));
+        }
+
     }
     
     @Override
@@ -175,7 +190,11 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
         ResolverConfig.refresh();
 
     	final EditText domain_input = (EditText)findViewById(R.id.DomainText);
-    	domain_input.setText("");
+    	if(getIntent().hasExtra(Intent.EXTRA_TEXT)){
+    		domain_input.setText(getIntent().getStringExtra(Intent.EXTRA_TEXT));
+    	} else {
+    		domain_input.setText("");
+    	}
     }
     
     private void onTestButtonClicked() {
@@ -291,6 +310,17 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
 	public void run() {
 		try {
 			Zone zone = test.getZone();
+	        final SharedPreferences settings = getSharedPreferences(TAG,0);
+			if(settings.getBoolean(PreferencesActivity.DEBUG,false)){
+				zone.setDebug(true);
+			}
+	        if(settings.getBoolean(PreferencesActivity.DEFAULT_RESOLVER,true)){
+	        	ResolverFactory.setStdResolver("");
+	        }else{
+	        	ResolverFactory.setStdResolver(settings.getString(PreferencesActivity.RESOLVER,""));
+	        }
+	        ResolverFactory.setRetries(Integer.parseInt(settings.getString(PreferencesActivity.RETRIES, "3")));
+	        ResolverFactory.setTimout(Integer.parseInt(settings.getString(PreferencesActivity.TIMEOUT, "3")));	        
 			zone.setNameserver(zone.getNameserverByResolver());
 			Log.d(TAG,"found name server for " + test.getZone().getNameAsString() + " " + test.getZone().getNameserver().toString());
 			zone.setDNSKey(zone.getDNSKeyByResolver());

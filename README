@@ -23,12 +23,17 @@ ant install
 Eclipse:
 File -> Import -> General -> Existing Projects into Workspace
 
+Start the application by Intent:
+  Intent intent = new Intent("ch.geoid.android.delegation.Test");
+  intent.putExtra(Intent.EXTRA_TEXT, "geoid.ch");
+  startActivity(intent);
+
 License:
 DNSdroid is placed under the GPL license.
 However, some copies of some third-party dependencies are distributed
 with DNSdroid as Java jar files in libs/. Licensing information for
 these files can be found in the libs/license file.
 
-Copyright (c) 2010, Samuel Benz <benz@geoid.ch>
+Copyright (c) 2010-2011, Samuel Benz <benz@geoid.ch>
 All rights reserved.
 

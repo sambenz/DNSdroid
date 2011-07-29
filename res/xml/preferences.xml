@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="@string/pref_title_resolver">
+		<CheckBoxPreference android:title="@string/pref_system_default_resolver"
+			android:defaultValue="true" android:summary=""
+			android:key="default_resolver" />
+		<EditTextPreference android:name="resolver"
+			android:summary=""
+			android:defaultValue="" android:title="@string/pref_system_resolver"
+			android:key="resolver" />
+		<Preference android:title="@string/pref_system_dnssec" android:key="dnssec" />
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/pref_title_options">
+	<ListPreference
+           android:title="@string/pref_system_retries"
+           android:summary=""
+           android:key="retries"
+           android:entries="@array/retries"
+           android:entryValues="@array/retries" />
+	<ListPreference
+           android:title="@string/pref_system_timeout"
+           android:summary=""
+           android:key="timeout"
+           android:entries="@array/timeout"
+           android:entryValues="@array/timeoutValues" />
+		<CheckBoxPreference android:title="@string/pref_title_debug"
+			android:defaultValue="false" android:summary="@string/pref_system_debug"
+			android:key="debug" />
+	</PreferenceCategory>
+</PreferenceScreen>

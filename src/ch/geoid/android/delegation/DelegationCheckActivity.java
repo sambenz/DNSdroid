@@ -1,6 +1,6 @@
 package ch.geoid.android.delegation;
 /* 
- * Copyright (c) 2010 Samuel Benz <benz@geoid.ch>
+ * Copyright (c) 2011 Samuel Benz <benz@geoid.ch>
  * 
  * This file is part of DNSdroid.
  *
@@ -127,11 +127,11 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
 
         final SharedPreferences settings = getSharedPreferences(TAG,0);
         SharedPreferences.Editor edit = settings.edit();
-        if(!settings.contains(PreferencesActivity.RETRIES)){
-        	edit.putString(PreferencesActivity.RETRIES, "3");
+        if(!settings.contains("retries")){
+        	edit.putString("retries", "3");
         }
-        if(!settings.contains(PreferencesActivity.TIMEOUT)){
-        	edit.putString(PreferencesActivity.TIMEOUT, "3");        
+        if(!settings.contains("timeout")){
+        	edit.putString("timeout", "3");        
         }
         edit.commit();
         	
@@ -280,7 +280,7 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
         	getContentResolver().delete(intent.getData(), null, null);
         	return true;
         case MENU_ITEM_PREFERENCES:
-            startActivity(new Intent(DelegationCheckActivity.this, PreferencesActivity.class));
+            startActivity(new Intent(DelegationCheckActivity.this, Preferences.class));
         	return true;
         }
         return super.onOptionsItemSelected(item);
@@ -311,16 +311,16 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
 		try {
 			Zone zone = test.getZone();
 	        final SharedPreferences settings = getSharedPreferences(TAG,0);
-			if(settings.getBoolean(PreferencesActivity.DEBUG,false)){
+			if(settings.getBoolean("debug",false)){
 				zone.setDebug(true);
 			}
-	        if(settings.getBoolean(PreferencesActivity.DEFAULT_RESOLVER,true)){
+	        if(settings.getBoolean("default_resolver",true)){
 	        	ResolverFactory.setStdResolver("");
 	        }else{
-	        	ResolverFactory.setStdResolver(settings.getString(PreferencesActivity.RESOLVER,""));
+	        	ResolverFactory.setStdResolver(settings.getString("resolver",""));
 	        }
-	        ResolverFactory.setRetries(Integer.parseInt(settings.getString(PreferencesActivity.RETRIES, "3")));
-	        ResolverFactory.setTimout(Integer.parseInt(settings.getString(PreferencesActivity.TIMEOUT, "3")));	        
+	        ResolverFactory.setRetries(Integer.parseInt(settings.getString("retries", "3")));
+	        ResolverFactory.setTimout(Integer.parseInt(settings.getString("timeout", "3")));	        
 			zone.setNameserver(zone.getNameserverByResolver());
 			Log.d(TAG,"found name server for " + test.getZone().getNameAsString() + " " + test.getZone().getNameserver().toString());
 			zone.setDNSKey(zone.getDNSKeyByResolver());

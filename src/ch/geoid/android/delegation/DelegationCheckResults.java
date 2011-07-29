@@ -1,6 +1,6 @@
 package ch.geoid.android.delegation;
 /* 
- * Copyright (c) 2010 Samuel Benz <benz@geoid.ch>
+ * Copyright (c) 2011 Samuel Benz <benz@geoid.ch>
  * 
  * This file is part of DNSdroid.
  *

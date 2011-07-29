@@ -18,16 +18,22 @@
     <string name="menu_back">Zurück</string>
     <string name="menu_share">Share</string>
 
-    <string name="pref_system_resolver">Verwende den default Name-Server</string>
+	<string name="pref_title_resolver">Resolver Konfiguration:</string>
+    <string name="pref_system_default_resolver">Verwende den default Name-Server</string>
+    <string name="pref_system_resolver">Verwende diesen Name-Server</string>
+        
     <string name="pref_system_dnssec">Teste DNSSEC Verfügbarkeit</string>
-    <string name="pref_system_retries">Retry count</string>
-    <string name="pref_system_timeout">Query timeout (s)</string>
-    <string name="pref_system_debug">Zeige DNS Anfragen im Android log</string>
-    <string name="pref_title_resolver">Resolver Konfiguration:</string>
-    <string name="pref_title_options">Query Optionen:</string>
     <string name="pref_test_nodnssec"> prüft keine DNSSEC Unterschriften!</string>
     <string name="pref_test_dnssec">Dein Name-Server validiert DNSSEC Unterschriften!</string>
     <string name="pref_test_fail">Beim Testen trat ein Fehler auf</string>
+
+    <string name="pref_title_options">Query Optionen:</string>
+
+    <string name="pref_system_retries">Retry count</string>
+    <string name="pref_system_timeout">Query timeout</string>
+    
+    <string name="pref_title_debug">Debug queries</string>
+    <string name="pref_system_debug">Zeige DNS Anfragen im Android log</string>
     
     <plurals name="month">
         <item quantity="one">vor 1 Monat</item>

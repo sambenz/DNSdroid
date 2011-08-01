@@ -86,16 +86,6 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
     private static final int MENU_ITEM_DELETE_ALL = Menu.FIRST + 2;
     private static final int MENU_ITEM_ABOUT = Menu.FIRST + 3;
     private static final int MENU_ITEM_PREFERENCES = Menu.FIRST + 4;
-		
-    /**
-     * The columns we are interested in from the database
-     */
-    private static final String[] PROJECTION = new String[] {
-            Results._ID, // 0
-            Results.DOMAIN, // 1
-            Results.RESULT, // 2
-            Results.MODIFIED_DATE, // 3
-    };
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,6 +123,11 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
         if(!settings.contains("timeout")){
         	edit.putString("timeout", "3");        
         }
+        if(!settings.contains("interval")){
+        	edit.putString("interval", "0");
+        }else{
+        	startService(new Intent("ch.geoid.android.delegation.StartService"));
+        }
         edit.commit();
         	
         intent = getIntent();
@@ -140,7 +135,7 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
             intent.setData(Results.CONTENT_URI);
         }
 
-        Cursor cursor = managedQuery(getIntent().getData(), PROJECTION, null, null, Results.DEFAULT_SORT_ORDER);
+        Cursor cursor = managedQuery(getIntent().getData(), Results.PROJECTION, null, null, Results.DEFAULT_SORT_ORDER);
         SimpleCursorAdapter list = new SimpleCursorAdapter(
         											this, 
         											R.layout.domain_list_item_1, 
@@ -175,7 +170,7 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
         	}
         };
         setListAdapter(list);
-
+        
         if(intent.hasExtra(Intent.EXTRA_TEXT)){
         	testDomain(intent.getStringExtra(Intent.EXTRA_TEXT));
         }
@@ -205,7 +200,7 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         Uri uri = ContentUris.withAppendedId(getIntent().getData(), id);
-        Cursor cursor = getContentResolver().query(uri, PROJECTION, null ,null, null);
+        Cursor cursor = getContentResolver().query(uri, Results.PROJECTION, null ,null, null);
         if(cursor.getCount() > 0){
         	cursor.moveToFirst();
         	testDomain(cursor.getString(1));
@@ -250,7 +245,7 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
                 getContentResolver().delete(uri, null, null);
                 return true;
             case MENU_ITEM_TEST:
-                Cursor cursor = getContentResolver().query(uri, PROJECTION, null ,null, null);
+                Cursor cursor = getContentResolver().query(uri, Results.PROJECTION, null ,null, null);
                 if(cursor.getCount() > 0){
                 	cursor.moveToFirst();
                 	testDomain(cursor.getString(1));
@@ -387,13 +382,15 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
         values.put(Results.RESULT,Severity.toString(severity));
         values.put(Results.MODIFIED_DATE,System.currentTimeMillis());
 
-        Cursor cursor = getContentResolver().query(intent.getData(), PROJECTION,"domain = \"" + domain + "\"",null, Results.DEFAULT_SORT_ORDER);
+        Cursor cursor = getContentResolver().query(intent.getData(), Results.PROJECTION,"domain = \"" + domain + "\"",null, Results.DEFAULT_SORT_ORDER);
         if(cursor.getCount() > 0){
         	cursor.moveToFirst();
         	getContentResolver().update(intent.getData(), values, "domain = \"" + domain + "\"", null);
         }else{
         	getContentResolver().insert(intent.getData(), values);        	
         }
+        Intent intent = new Intent("ch.geoid.android.delegation.DBUpdate");
+        sendBroadcast(intent);
         cursor.close();
 	}
 

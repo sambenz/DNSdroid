@@ -81,7 +81,7 @@ public class ResultListProvider extends ContentProvider {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
                     + newVersion + ", which will destroy all old data");
-            db.execSQL("DROP TABLE IF EXISTS notes");
+            db.execSQL("DROP TABLE IF EXISTS RESULTS_TABLE_NAME");
             onCreate(db);
         }
     }
@@ -179,7 +179,6 @@ public class ResultListProvider extends ContentProvider {
         long rowId = db.insert(RESULTS_TABLE_NAME, Results.DOMAIN, values);
         if (rowId > 0) {
             Uri noteUri = ContentUris.withAppendedId(Results.CONTENT_URI, rowId);
-            getContext().getContentResolver().notifyChange(noteUri, null);
             return noteUri;
         }
 

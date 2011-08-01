@@ -11,6 +11,15 @@
 		<Preference android:title="@string/pref_system_dnssec" android:key="dnssec" />
 	</PreferenceCategory>
 
+	<PreferenceCategory android:title="@string/pref_title_interval">
+	<ListPreference
+           android:title="@string/pref_system_interval"
+           android:summary=""
+           android:key="interval"
+           android:entries="@array/interval"
+           android:entryValues="@array/intervalValues" />
+	</PreferenceCategory>
+
 	<PreferenceCategory android:title="@string/pref_title_options">
 	<ListPreference
            android:title="@string/pref_system_retries"

@@ -52,6 +52,16 @@ public final class DelegationCheckResults {
          */
         public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/results");
 
+    	/**
+    	 * The columns we are interested in from the database
+    	 */
+    	public static final String[] PROJECTION = new String[] { 
+    			Results._ID, // 0
+    			Results.DOMAIN, // 1
+    			Results.RESULT, // 2
+    			Results.MODIFIED_DATE, // 3
+    	};
+
         /**
          * The default sort order for this table
          */

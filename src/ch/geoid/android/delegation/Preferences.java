@@ -116,8 +116,16 @@ public class Preferences extends PreferenceActivity implements Runnable {
 				p.setSummary(getResources().getStringArray(R.array.interval)[id]);
 				return true;
 			}
-
 		});
+    	
+    	final ListPreference message = (ListPreference) findPreference("message");
+    	message.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			public boolean onPreferenceChange(Preference preference, Object object) {
+				ListPreference p = (ListPreference) message;
+				p.setSummary((String) object);
+				return true;
+			}
+    	});
     	
 		final Preference dnssec = (Preference) findPreference("dnssec");
 		dnssec.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -147,7 +155,9 @@ public class Preferences extends PreferenceActivity implements Runnable {
     	final ListPreference timeout = (ListPreference) findPreference("timeout");
     	timeout.setSummary(timeout.getEntry());    	
     	final ListPreference interval = (ListPreference) findPreference("interval");
-    	interval.setSummary(interval.getEntry());    	
+    	interval.setSummary(interval.getEntry());
+    	final ListPreference message = (ListPreference) findPreference("message");
+    	message.setSummary(message.getEntry());    	
     }
 
     private void onDnssecButtonClicked() {

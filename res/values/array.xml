@@ -42,4 +42,10 @@
    <item>86400</item>
 </string-array>
 
+<string-array name="message">
+   <item>Never</item>
+   <item>Warning</item>
+   <item>Error</item>   
+</string-array>
+
 </resources>

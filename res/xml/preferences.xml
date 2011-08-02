@@ -18,6 +18,12 @@
            android:key="interval"
            android:entries="@array/interval"
            android:entryValues="@array/intervalValues" />
+	<ListPreference
+           android:title="@string/pref_system_message"
+           android:summary=""
+           android:key="message"
+           android:entries="@array/message"
+           android:entryValues="@array/message" />
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/pref_title_options">

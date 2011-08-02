@@ -7,8 +7,12 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -40,16 +44,30 @@ public class DelegationCheckService extends Service implements OnSharedPreferenc
 
 	private Timer timer;
 
+    private NotificationManager notifications;
+
+	/**
+	 * The notify note ID
+	 */
+	public static final int NOTE_ID = 34653465;
+
+	private int warn_count;
+    private int error_count;
+    
 	private TimerTask getTask(){
 		return new TimerTask() {
 		@Override
 		public void run() {
 			final Cursor c = getContentResolver().query(Results.CONTENT_URI, Results.PROJECTION, null, null,Results.DEFAULT_SORT_ORDER);
+			notifications.cancel(NOTE_ID);
+			warn_count = 0;
+			error_count = 0;
 			try {
 				while(c.moveToNext()){
 					CharSequence domain = c.getString(c.getColumnIndex(Results.DOMAIN));
+					CheckDelegation test;
 					try {
-						CheckDelegation test = new CheckDelegation(domain.toString());
+						test = new CheckDelegation(domain.toString());
 						Zone zone = test.getZone();
 				        final SharedPreferences settings = getSharedPreferences(TAG,0);
 						if(settings.getBoolean("debug",false)){
@@ -99,6 +117,8 @@ public class DelegationCheckService extends Service implements OnSharedPreferenc
 						updateDB(test);
 					} catch (CheckDelegationException e) {
 						Log.e(TAG,"DelegationCheckService Error",e);
+					} finally {
+						test = null;
 					}
 				}
 			} finally {
@@ -121,7 +141,19 @@ public class DelegationCheckService extends Service implements OnSharedPreferenc
         		}
         	}
         }
-        //TODO: send message if error or warning
+
+        // send system notification
+		final SharedPreferences settings = getSharedPreferences(TAG,0);
+		String message = settings.getString("message", "Never");
+		if (!message.equals("Never")){
+	        if(message.equals("Warning") && severity == Severity.WARNING){
+	        	warn_count++;
+				sendNotification(severity,t);
+	        }else if (severity > Severity.WARNING){
+	        	error_count++;
+				sendNotification(severity,t);
+			}
+		}
         
         values.put(Results.RESULT,Severity.toString(severity));
         values.put(Results.MODIFIED_DATE,System.currentTimeMillis());
@@ -138,9 +170,40 @@ public class DelegationCheckService extends Service implements OnSharedPreferenc
         cursor.close();
 	}
 
+	private void sendNotification(int severity, CheckDelegation t) {
+		final String domain = t.getZone().getNameAsString();
+		final Context context = getApplicationContext();
+
+		CharSequence title = getResources().getString(R.string.notification_title);
+		CharSequence text = getResources().getString(R.string.notification_text);
+		
+		if(error_count > 0){
+			if(error_count == 1){
+				title = domain + " " + Severity.toString(severity);
+			}else if(error_count > 1){
+				title = error_count + " " + title  + " " + Severity.toString(severity); 
+			}			
+		}else{
+			if(warn_count == 1){
+				title = domain + " " + Severity.toString(severity);
+			}else if(warn_count > 1){
+				title = warn_count + " " + title  + " " + Severity.toString(severity);
+			}
+		}
+		
+		Notification notification = new Notification(android.R.drawable.stat_notify_error, title, System.currentTimeMillis());
+		notification.defaults |= Notification.DEFAULT_LIGHTS;
+		notification.flags |= Notification.FLAG_AUTO_CANCEL;
+		Intent notificationIntent = new Intent(this, DelegationCheckActivity.class);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+		notification.setLatestEventInfo(context, title, text, contentIntent);
+		notifications.notify(NOTE_ID, notification);
+	}
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		notifications = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		final SharedPreferences settings = getSharedPreferences(TAG,0);
 		settings.registerOnSharedPreferenceChangeListener(this);
 		String interval = settings.getString("interval", "0");
@@ -166,7 +229,7 @@ public class DelegationCheckService extends Service implements OnSharedPreferenc
 	}
 
 	@Override
-	public synchronized void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+	public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
 		// this will only work if this service runs in the same process than the app!
 		final SharedPreferences settings = getSharedPreferences(TAG,0);
 		String interval = settings.getString("interval", "0");

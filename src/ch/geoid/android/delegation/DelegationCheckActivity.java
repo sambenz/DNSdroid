@@ -128,6 +128,9 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
         }else{
         	startService(new Intent("ch.geoid.android.delegation.StartService"));
         }
+        if(!settings.contains("message")){
+        	edit.putString("message", getResources().getStringArray(R.array.message)[0]);
+        }
         edit.commit();
         	
         intent = getIntent();
@@ -171,7 +174,7 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
         };
         setListAdapter(list);
         
-        if(intent.hasExtra(Intent.EXTRA_TEXT)){
+        if(intent.getAction() != null && intent.getAction().equals("ch.geoid.android.delegation.Test") && intent.hasExtra(Intent.EXTRA_TEXT)){
         	testDomain(intent.getStringExtra(Intent.EXTRA_TEXT));
         }
 

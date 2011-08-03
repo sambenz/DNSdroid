@@ -123,9 +123,7 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
         if(!settings.contains("timeout")){
         	edit.putString("timeout", "3");        
         }
-        if(!settings.contains("interval")){
-        	edit.putString("interval", "0");
-        }else{
+        if(settings.contains("interval")){
         	startService(new Intent("ch.geoid.android.delegation.StartService"));
         }
         if(!settings.contains("message")){
@@ -153,7 +151,7 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
 				long date = Long.parseLong(cursor.getString(3));			
 				
                 ((TextView) view.findViewById(R.id.res_text1)).setText(domain);
-                ((TextView)view.findViewById(R.id.res_text2)).setText(FuzzyDate(date));
+                ((TextView)view.findViewById(R.id.res_text2)).setText(FuzzyDate(getResources(),date));
 				switch(severity){
 				case Severity.OK:
 				case Severity.INFO:
@@ -246,6 +244,8 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
         switch (item.getItemId()) {
             case MENU_ITEM_DELETE:
                 getContentResolver().delete(uri, null, null);
+                Intent intent = new Intent("ch.geoid.android.delegation.DBUpdate");
+                sendBroadcast(intent);
                 return true;
             case MENU_ITEM_TEST:
                 Cursor cursor = getContentResolver().query(uri, Results.PROJECTION, null ,null, null);
@@ -276,6 +276,8 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
             return true;
         case MENU_ITEM_DELETE_ALL:
         	getContentResolver().delete(intent.getData(), null, null);
+            Intent intent = new Intent("ch.geoid.android.delegation.DBUpdate");
+            sendBroadcast(intent);
         	return true;
         case MENU_ITEM_PREFERENCES:
             startActivity(new Intent(DelegationCheckActivity.this, Preferences.class));
@@ -411,8 +413,12 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
     	}
     };
     	
-	private String FuzzyDate(long date){
-		Resources res = getResources();
+	/**
+	 * @param res
+	 * @param date
+	 * @return a date string
+	 */
+	public static String FuzzyDate(Resources res, long date){
 		String s = "";
 		int d,delta = (int)((System.currentTimeMillis() - date) / 1000);
 		

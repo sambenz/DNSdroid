@@ -25,7 +25,6 @@ import java.util.List;
 
 import org.xbill.DNS.DClass;
 import org.xbill.DNS.DNSKEYRecord;
-import org.xbill.DNS.DNSSEC;
 import org.xbill.DNS.ExtendedFlags;
 import org.xbill.DNS.Flags;
 import org.xbill.DNS.Message;
@@ -38,9 +37,9 @@ import org.xbill.DNS.ResolverConfig;
 import org.xbill.DNS.Section;
 import org.xbill.DNS.SimpleResolver;
 import org.xbill.DNS.Type;
-import org.xbill.DNS.security.DNSSECVerifier;
 
 import android.util.Log;
+import ch.nic.reg.delegation.utils.Dnssec;
 
 /**
  * Name: CacheTester<br>
@@ -169,7 +168,6 @@ public class SimpleCacheTester {
 		Resolver res = new SimpleResolver(ip.getHostAddress());
 		res.setEDNS(0, 0, ExtendedFlags.DO, null);
 
-		DNSSECVerifier dnssec = new DNSSECVerifier();
 		Record rec = Record.newRecord(name, Type.DNSKEY, DClass.IN);
 		Message query = Message.newQuery(rec);
 		query.getHeader().setFlag(Flags.CD);
@@ -198,13 +196,14 @@ public class SimpleCacheTester {
 				if(verbose){
 					Log.d(TAG,"Info: Server is security aware!");
 				}
+				List<DNSKEYRecord> keys = new ArrayList<DNSKEYRecord>();
 				for(Record entry : response.getSectionArray(Section.ANSWER)){
 					if(entry.getType() == Type.DNSKEY){
-						dnssec.addTrustedKey((DNSKEYRecord) entry);
+						keys.add((DNSKEYRecord) entry);
 					}
 				}
 				for(RRset rrset : response.getSectionRRsets(Section.ANSWER)){
-					if(dnssec.verify(rrset, null) == DNSSEC.Secure){
+					if(Dnssec.verifySig(keys, rrset)){
 						self_sig = true;
 						if(verbose){
 							Log.d(TAG,"Info: Self signature is valid!");

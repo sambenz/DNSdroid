@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -174,6 +175,15 @@ public class ResultListActivity extends ExpandableListActivity {
 		}
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+           	startActivity(new Intent(ResultListActivity.this, DelegationCheckActivity.class));
+           	return super.onKeyDown(keyCode, event); 
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+    
     private String getResultsAsText(){
     	StringBuffer t = new StringBuffer();
     	t.append(getResources().getString(R.string.share_header) + " " + DetailTestResultList.domain + "\n\n");

@@ -53,7 +53,9 @@ public class ResultWidget extends AppWidgetProvider {
 		SharedPreferences.Editor edit = settings.edit();
 		edit.putString("interval", "0");
 		edit.commit();
-		thread.interrupt();
+		if(thread != null){
+			thread.interrupt();
+		}
 	}
 	
 	@Override
@@ -79,6 +81,12 @@ public class ResultWidget extends AppWidgetProvider {
 			thread.start();
 		}else if(results.size()>0){
 			updateWidget(context,appWidgetManager,appWidgetIds,results.get(0));
+		}else{
+			for (int appWidgetId : appWidgetIds) {
+				RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
+				views.setOnClickPendingIntent(R.id.widget,PendingIntent.getActivity(context, 0, new Intent(context, DelegationCheckActivity.class), 0));
+				appWidgetManager.updateAppWidget(appWidgetId, views);
+			}
 		}
 	}
 	

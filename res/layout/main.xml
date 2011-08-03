@@ -14,7 +14,7 @@
 		<EditText android:text="@string/domain_input" android:id="@+id/DomainText"
 			android:layout_width="wrap_content" android:layout_height="fill_parent"
 			android:hint="@string/domain_input_help" android:clickable="true"
-			android:focusable="true" android:singleLine="true" android:layout_weight="1"><requestFocus />
+			android:focusable="true" android:maxLength="100" android:singleLine="true" android:layout_weight="1"><requestFocus />
 		</EditText>
 		<Button android:text="@string/start_test" android:id="@+id/StartTest"
 			android:layout_width="wrap_content" android:layout_height="fill_parent" >

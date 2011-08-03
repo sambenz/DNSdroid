@@ -20,7 +20,7 @@
     <string name="menu_share">Share</string>
 
 	<string name="notification_title">domains with</string> <!-- 5 domains with Warning -->
-	<string name="notification_text">DNSdroid detects some DNS failures</string>
+	<string name="notification_text">DNSdroid detected errors in the DNS</string>
 	
     <string name="pref_title_resolver">Resolver configuration:</string>
     <string name="pref_system_default_resolver">Use default resolver</string>

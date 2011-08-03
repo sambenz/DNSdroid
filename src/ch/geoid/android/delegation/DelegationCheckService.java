@@ -145,8 +145,8 @@ public class DelegationCheckService extends Service implements OnSharedPreferenc
         // send system notification
 		final SharedPreferences settings = getSharedPreferences(TAG,0);
 		String message = settings.getString("message", "Never");
-		if (!message.equals("Never")){
-	        if(message.equals("Warning") && severity == Severity.WARNING){
+		if (!message.startsWith("N")){
+	        if(message.startsWith("W") && severity == Severity.WARNING){
 	        	warn_count++;
 				sendNotification(severity,t);
 	        }else if (severity > Severity.WARNING){

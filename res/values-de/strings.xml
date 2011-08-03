@@ -18,10 +18,17 @@
     <string name="menu_back">Zurück</string>
     <string name="menu_share">Share</string>
 
+	<string name="notification_title">Domain-Namen mit</string> <!-- 5 domains with Warning -->
+	<string name="notification_text">DNSdroid erkannte Fehler im DNS</string>
+
 	<string name="pref_title_resolver">Resolver Konfiguration:</string>
     <string name="pref_system_default_resolver">Verwende den default Name-Server</string>
     <string name="pref_system_resolver">Verwende diesen Name-Server</string>
         
+    <string name="pref_title_interval">Auto re-test Konfiguration:</string>
+    <string name="pref_system_interval">Update Interval</string>
+    <string name="pref_system_message">Warn Level</string>
+    
     <string name="pref_system_dnssec">Teste DNSSEC Verfügbarkeit</string>
     <string name="pref_test_nodnssec"> prüft keine DNSSEC Unterschriften!</string>
     <string name="pref_test_dnssec">Dein Name-Server validiert DNSSEC Unterschriften!</string>

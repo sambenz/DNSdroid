@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="retries">
+   <item>1</item>
+   <item>2</item>
+   <item>3</item>
+   <item>4</item>
+   <item>5</item>   
+</string-array>
+
+<string-array name="timeout">
+   <item>1 s</item>
+   <item>2 s</item>
+   <item>3 s</item>
+   <item>4 s</item>
+   <item>5 s</item>   
+</string-array>
+<string-array name="timeoutValues">
+   <item>1</item>
+   <item>2</item>
+   <item>3</item>
+   <item>4</item>
+   <item>5</item>   
+</string-array>
+
+<string-array name="interval">
+   <item>Manuell</item>
+   <item>Alle 4 Stunden</item>
+   <item>Alle 8 Stunden</item>
+   <item>Alle 12 Stunden</item>
+   <item>Alle 24 Stunden</item>   
+</string-array>
+<string-array name="intervalValues">
+   <item>0</item> 
+   <item>14400</item>
+   <item>28800</item>
+   <item>43200</item>   
+   <item>86400</item>
+</string-array>
+
+<string-array name="message">
+   <item>Nie</item>
+   <item>Warnung</item>
+   <item>Error</item>   
+</string-array>
+
+</resources>

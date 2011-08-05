@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -55,14 +56,24 @@ public class DelegationCheckService extends Service implements Runnable {
 
 	private int warn_count;
 	private int error_count;
+	
+	Thread t = null;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		Log.d(TAG,"Start DelegationCheckService ...");
 		notifications = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
-        wakelock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
+        PowerManager power = (PowerManager) getSystemService(POWER_SERVICE);
+        wakelock = power.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
         wakelock.acquire();
+        
+        ConnectivityManager connection = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        if (!connection.getBackgroundDataSetting()) {
+            stopSelf();
+            return;
+        }
+        
         Thread t = new Thread(this);
 		t.start();
 	}
@@ -71,6 +82,7 @@ public class DelegationCheckService extends Service implements Runnable {
 	public void onDestroy() {
 		super.onDestroy();
 		wakelock.release();
+		Log.d(TAG,"... stop DelegationCheckService");		
 	}
 
 	@Override
@@ -147,7 +159,8 @@ public class DelegationCheckService extends Service implements Runnable {
 			}
 		} finally {
 			c.close();
-		}		
+		}
+		stopSelf();		
 	}
 
 	private void updateDB(CheckDelegation t) {

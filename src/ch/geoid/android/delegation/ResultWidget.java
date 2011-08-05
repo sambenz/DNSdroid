@@ -44,16 +44,12 @@ public class ResultWidget extends AppWidgetProvider {
 			SharedPreferences.Editor edit = settings.edit();
 			edit.putString("interval", "86400");
 			edit.commit();
+            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            Intent i = new Intent(context, DelegationCheckService.class);
+            PendingIntent pi = PendingIntent.getService(context, 0, i, 0);
+            am.cancel(pi);
+            am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime() + 10*1000L,86400*1000L, pi);
 		}
-    	String interval = settings.getString("interval","0");
-        int seconds = Integer.parseInt(interval);
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent i = new Intent(context, DelegationCheckService.class);
-        PendingIntent pi = PendingIntent.getService(context, 0, i, 0);
-        am.cancel(pi);
-        if (seconds > 0) {
-            am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime() + 10*1000L,seconds*1000L, pi);
-        }
 	}
 	
 	@Override

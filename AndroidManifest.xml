@@ -25,9 +25,15 @@
     	</intent-filter>
     	<meta-data android:name="android.appwidget.provider" android:resource="@xml/widget"/>
 	</receiver>
-	<service android:name="DelegationCheckService" android:process=":remote"/>
+	 <receiver android:name="BootReceiver">
+        <intent-filter>
+            <action android:name="android.intent.action.BOOT_COMPLETED" />
+        </intent-filter>
+    </receiver>
+	<service android:name="DelegationCheckService"/> <!-- android:process=":remote" -->
   </application>
   <uses-sdk android:minSdkVersion="3" />
   <uses-permission android:name="android.permission.INTERNET"/>
   <uses-permission android:name="android.permission.WAKE_LOCK"/>
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 </manifest>

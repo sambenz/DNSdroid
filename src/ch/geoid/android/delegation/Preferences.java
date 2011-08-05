@@ -127,7 +127,7 @@ public class Preferences extends PreferenceActivity implements Runnable {
 	            PendingIntent pi = PendingIntent.getService(context, 0, i, 0);
 	            am.cancel(pi);
 	            if (seconds > 0) {
-	                am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime() + 1*1000L,seconds*1000L, pi);
+	                am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime() + 10*1000L,seconds*1000L, pi);
 	            }
 				return true;
 			}

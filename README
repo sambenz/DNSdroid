@@ -15,6 +15,7 @@ Following test categories are included:
 
 New: A widget shows you the results of the periodical re-tested domains!
      Show if your current DNS resolver is DNS enabled.
+	 Share the test results by mail or an other messaging system. 
 
 Note: All tests are performed on the device! No Web-Service is involved. This lets you also check your internal domains using the wireless capabilities of your mobile phone.
 

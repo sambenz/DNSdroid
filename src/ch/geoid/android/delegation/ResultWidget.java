@@ -3,6 +3,7 @@ package ch.geoid.android.delegation;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -11,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.SystemClock;
 import android.text.format.DateUtils;
 import android.widget.RemoteViews;
 import ch.geoid.android.delegation.DelegationCheckResults.Results;
@@ -37,22 +39,26 @@ public class ResultWidget extends AppWidgetProvider {
 	public void onEnabled(Context context){
 		super.onEnabled(context);
 		final SharedPreferences settings = context.getSharedPreferences(TAG,0);
-		String i = settings.getString("interval", "empty");
-		if(i.equals("empty")){
+		String s = settings.getString("interval", "empty");
+		if(s.equals("empty")){
 			SharedPreferences.Editor edit = settings.edit();
 			edit.putString("interval", "86400");
 			edit.commit();
 		}
-        context.startService(new Intent("ch.geoid.android.delegation.StartService"));
+    	String interval = settings.getString("interval","0");
+        int seconds = Integer.parseInt(interval);
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent i = new Intent(context, DelegationCheckService.class);
+        PendingIntent pi = PendingIntent.getService(context, 0, i, 0);
+        am.cancel(pi);
+        if (seconds > 0) {
+            am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime() + 10*1000L,seconds*1000L, pi);
+        }
 	}
 	
 	@Override
 	public void onDisabled(Context context){
 		super.onDisabled(context);
-		final SharedPreferences settings = context.getSharedPreferences(TAG,0);
-		SharedPreferences.Editor edit = settings.edit();
-		edit.putString("interval", "0");
-		edit.commit();
 		if(thread != null){
 			thread.interrupt();
 		}

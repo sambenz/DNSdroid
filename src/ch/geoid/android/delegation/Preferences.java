@@ -23,11 +23,16 @@ import java.net.InetAddress;
 import org.xbill.DNS.Name;
 import org.xbill.DNS.ResolverConfig;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
@@ -102,6 +107,7 @@ public class Preferences extends PreferenceActivity implements Runnable {
 		});
 
     	final ListPreference interval = (ListPreference) findPreference("interval");
+    	final Context context = this;  // or this.getApplicationContext();
     	interval.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			public boolean onPreferenceChange(Preference preference, Object object) {
 				ListPreference p = (ListPreference) interval;
@@ -114,6 +120,15 @@ public class Preferences extends PreferenceActivity implements Runnable {
 					id++;
 				}
 				p.setSummary(getResources().getStringArray(R.array.interval)[id]);
+	        	String interval = (String)object;
+	            int seconds = Integer.parseInt(interval);
+	            AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+	            Intent i = new Intent(context, DelegationCheckService.class);
+	            PendingIntent pi = PendingIntent.getService(context, 0, i, 0);
+	            am.cancel(pi);
+	            if (seconds > 0) {
+	                am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime() + 1*1000L,seconds*1000L, pi);
+	            }
 				return true;
 			}
 		});

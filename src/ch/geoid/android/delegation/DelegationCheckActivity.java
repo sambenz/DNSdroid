@@ -25,8 +25,10 @@ import java.util.Map;
 
 import org.xbill.DNS.ResolverConfig;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -40,6 +42,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -123,11 +126,19 @@ public class DelegationCheckActivity extends ListActivity implements Runnable {
         if(!settings.contains("timeout")){
         	edit.putString("timeout", "3");        
         }
-        if(settings.contains("interval")){
-        	startService(new Intent("ch.geoid.android.delegation.StartService"));
-        }
         if(!settings.contains("message")){
         	edit.putString("message", getResources().getStringArray(R.array.message)[0]);
+        }
+        if(settings.contains("interval")){
+        	String interval = settings.getString("interval","0");
+            int seconds = Integer.parseInt(interval);
+            AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+            Intent i = new Intent(this, DelegationCheckService.class);
+            PendingIntent pi = PendingIntent.getService(this, 0, i, 0);
+            am.cancel(pi);
+            if (seconds > 0) {
+                am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime() + seconds*1000L,seconds*1000L, pi);
+            }
         }
         edit.commit();
         	

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="ch.geoid.android.delegation"
-      android:versionCode="6"
-      android:versionName="1.4.1">
+      android:versionCode="7"
+      android:versionName="1.5">
   <application android:debuggable="false" android:icon="@drawable/icon" android:label="@string/app_name">
     <provider android:name="ResultListProvider" android:authorities="ch.geoid.android.delegation.DelegationCheckResults" />
     <activity android:name="DelegationCheckActivity">

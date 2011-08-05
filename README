@@ -13,6 +13,9 @@ Following test categories are included:
     * Nameserver
     * Address (of name server)
 
+New: A widget shows you the results of the periodical re-tested domains!
+     Show if your current DNS resolver is DNS enabled.
+
 Note: All tests are performed on the device! No Web-Service is involved. This lets you also check your internal domains using the wireless capabilities of your mobile phone.
 
 Install:
